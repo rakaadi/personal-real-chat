@@ -11,6 +11,7 @@ import TextContainer from "../text-container/TextContainer.component";
 import { ChatProps, User, IMessageProps } from "../../types";
 
 const ENDPOINT = "https://personal-real-chat.herokuapp.com/";
+// const ENDPOINT = "localhost:5000"; // For development only
 let socket: any;
 
 const ChatBox = ({ location }: ChatProps) => {

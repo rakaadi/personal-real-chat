@@ -1,18 +1,20 @@
-const http = require("http");
 const express = require("express");
 const socketio = require("socket.io");
 const cors = require("cors");
+const path = require("path");
 
 const { addUser, removeUser, getUser, getUsersInRoom } = require("./users");
-const router = require("./router");
 
 const port = process.env.PORT || 5000;
-const app = express();
-const server = http.createServer(app);
-const io = socketio(server);
+const server = express()
+    .use(cors())
+    .use(express.static(path.join(__dirname, "client/build")))
+    .listen(port, error => {
+        if (error) throw error;
+        console.log(`Server has started and running on port ${port}`);
+    })
 
-app.use(cors());
-app.use(router);
+const io = socketio(server);
 
 io.on("connect", (socket) => {
     socket.on("join", ({ name, room }, callback) => {
@@ -44,9 +46,4 @@ io.on("connect", (socket) => {
             io.to(user.room).emit("roomData", { room: user.room, users: getUsersInRoom(user.room) });
         }
     })
-})
-
-server.listen(port, error => {
-    if (error) throw error;
-    console.log(`Server has started and running on port ${port}`);
 })
