@@ -9,7 +9,7 @@ export const JoinContainer = styled.div`
 `;
 
 export const FormContainer = styled.div`
-    width: 25%;
+    width: clamp(25%, 30%, 75vw);
 
     h1 {
         color: white;
@@ -17,6 +17,10 @@ export const FormContainer = styled.div`
         padding-bottom: 10px;
         border-bottom: 2px solid white;
         margin-bottom: 12px;
+    }
+
+    @media (min-width: 320px) and (max-width: 480px) {
+        width: 90vw;
     }
 `;
 

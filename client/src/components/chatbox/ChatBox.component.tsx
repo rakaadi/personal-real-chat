@@ -8,10 +8,14 @@ import MessagesWindow from "../messages-window/MessagesWindow.component";
 import InputBox from "../input-box/InputBox.component";
 import TextContainer from "../text-container/TextContainer.component";
 
-import { ChatProps, User, IMessageProps } from "../../types";
+import { ChatProps, User, IMessageProps, IUsersList } from "../../types";
 
+//! ENDPOINT for deployment, change it accordingly to match your deployed app URL
 const ENDPOINT = "https://personal-real-chat.herokuapp.com/";
-// const ENDPOINT = "localhost:5000"; // For development only
+
+//! ENDPOINT for development only
+const ENDPOINT_DEV = "localhost:5000";
+
 let socket: any;
 
 const ChatBox = ({ location }: ChatProps) => {
@@ -33,14 +37,14 @@ const ChatBox = ({ location }: ChatProps) => {
             if (error) alert(error)
         })
 
-    }, [ENDPOINT, location.search]);
+    }, [location.search]);
 
     useEffect(() => {
         socket.on("message", (message: IMessageProps["message"]) => {
             setMessages((messages) => [...messages, message]);
         })
 
-        socket.on("roomData", ({ users }: any) => {
+        socket.on("roomData", ({ users }: IUsersList) => {
             setUsers(users);
         })
     }, []);
